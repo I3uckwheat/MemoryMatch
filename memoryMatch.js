@@ -2,6 +2,8 @@ let clickedArray = [];
 let interval;
 let started = false;
 let time = 0;
+let ready = true;
+let numComplted = 0;
 
 setUp();
 
@@ -37,11 +39,39 @@ function setUp(){
 
     cell.addEventListener('click', function(){
       startTimer();
+      if(ready = false) return;
       if(this.clicked == false && this.completed == false){
         clickedArray.push(this);
         reveal(this);
       }
-    });
+
+      if(clickedArray.length == 2){
+        if(clickedArray[0].value == clickedArray[1].value){
+          complete(clickedArray[0]);
+          complete(clickedArray[1]);
+
+          clickedArray = [];
+
+          if(numComplted == 8){
+            alert("You won in " + time + " seconds!");
+            clearInterval(interval);
+          }
+        } else {
+          ready = false;
+          document.getElementById("gridTable").style.border = "5px solid red";
+
+          setTimeout(function(){
+            hide(clickedArray[0]);
+            hide(clickedArray[1]);
+
+            clickedArray = [];
+
+            ready = true;
+            document.getElementById("gridTable").style.border = "5px solid black";
+          }, 500);
+        }
+      }
+   });
   }
 }
 
@@ -59,4 +89,16 @@ function startTimer(){
     }, 1000);
     started = true;
   }
+}
+
+function hide(cell){
+  cell.style.backgroundColor = "blue";
+  cell.innerHTML = "";
+  cell.clicked = false;
+}
+
+function complete(cell){
+  numComplted ++;
+  cell.completed = true;
+  cell.style.backgroundColor = "purple";
 }
