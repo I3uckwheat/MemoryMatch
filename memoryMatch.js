@@ -1,4 +1,7 @@
 let clickedArray = [];
+let interval;
+let started = false;
+let time = 0;
 
 setUp();
 
@@ -33,6 +36,7 @@ function setUp(){
     });
 
     cell.addEventListener('click', function(){
+      startTimer();
       if(this.clicked == false && this.completed == false){
         clickedArray.push(this);
         reveal(this);
@@ -45,4 +49,14 @@ function reveal(cell){
   cell.style.backgroundColor = "red";
   cell.innerHTML = cell.value;
   cell.clicked = true;
+}
+
+function startTimer(){
+  if(started == false){
+    interval = setInterval(function(){
+      time++;
+      document.getElementById("timer").innerHTML = "Time Elapsed: " + time;
+    }, 1000);
+    started = true;
+  }
 }
