@@ -39,7 +39,9 @@ function setUp(){
 
     cell.addEventListener('click', function(){
       startTimer();
-      if(ready = false) return;
+      if(ready = false)
+        return;
+
       if(this.clicked == false && this.completed == false){
         clickedArray.push(this);
         reveal(this);
@@ -73,6 +75,16 @@ function setUp(){
       }
    });
   }
+
+  document.addEventListener('keydown', function(event){
+    if(event.key > 0 && event.key < 10){
+      grid[event.key - 1].click();
+    }
+  });
+
+  document.getElementById("restart").addEventListener('click', function(){
+    location.reload();
+  })
 }
 
 function reveal(cell){
